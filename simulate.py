@@ -1,6 +1,7 @@
 import pybullet as p
 import pybullet_data
 import time
+import numpy
 
 from generate import *
 
@@ -17,10 +18,23 @@ planeId = p.loadURDF("plane.urdf")
 p.loadSDF("world.sdf")
 robotId = p.loadURDF("body.urdf")
 
-for i in range(100000):
+pyrosim.Prepare_To_Simulate(robotId)
+
+backLegSensorValues = numpy.zeros(200)
+frontLegSensorValues = numpy.zeros(200)
+
+for i in range(200):
     p.stepSimulation()
-    print(i)
+
+    backLegTouch = pyrosim.Get_Touch_Sensor_Value_For_Link("BackLeg")
+    frontLegTouch = pyrosim.Get_Touch_Sensor_Value_For_Link("FrontLeg")
+    backLegSensorValues[i] = backLegTouch
+    frontLegSensorValues[i] = frontLegTouch
+
     time.sleep(.01)
+
+numpy.save("data/backLegSensorValues.npy",backLegSensorValues)
+numpy.save("data/frontLegSensorValues.npy",frontLegSensorValues)
 
 p.disconnect()
 
