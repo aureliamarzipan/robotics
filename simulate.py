@@ -23,13 +23,20 @@ pyrosim.Prepare_To_Simulate(robotId)
 backLegSensorValues = numpy.zeros(1000)
 frontLegSensorValues = numpy.zeros(1000)
 
-amplitude = numpy.pi/4
-frequency = 10
-phaseOffset = 0
+BackLeg_amplitude = numpy.pi/4
+BackLeg_frequency = 10
+BackLeg_phaseOffset = 0
 
-targetAngles = numpy.linspace(0, 2*numpy.pi, 1000)
-targetAngles = amplitude * numpy.sin(frequency * targetAngles + phaseOffset)
-numpy.save("data/targetAngles.npy", targetAngles)
+BackLeg_targetAngles = numpy.linspace(0, 2*numpy.pi, 1000)
+BackLeg_targetAngles = BackLeg_amplitude * numpy.sin(BackLeg_frequency * BackLeg_targetAngles + BackLeg_phaseOffset)
+numpy.save("data/BackLegTargetAngles.npy", BackLeg_targetAngles)
+
+FrontLeg_amplitude = numpy.pi/4
+FrontLeg_frequency = 10
+FrontLeg_phaseOffset = 0
+FrontLeg_targetAngles = numpy.linspace(0, 2*numpy.pi, 1000)
+FrontLeg_targetAngles = FrontLeg_amplitude * numpy.sin(FrontLeg_frequency * FrontLeg_targetAngles + FrontLeg_phaseOffset)
+numpy.save("data/FrontLegTargetAngles.npy", FrontLeg_targetAngles)
 
 for i in range(1000):
     p.stepSimulation()
@@ -43,7 +50,7 @@ for i in range(1000):
         bodyIndex = robotId,
         jointName = b"Torso_BackLeg",
         controlMode = p.POSITION_CONTROL,
-        targetPosition = targetAngles[i],
+        targetPosition = BackLeg_targetAngles[i],
         maxForce = 50
     )
 
@@ -51,7 +58,7 @@ for i in range(1000):
         bodyIndex = robotId,
         jointName = b"Torso_FrontLeg",
         controlMode = p.POSITION_CONTROL,
-        targetPosition = targetAngles[i],
+        targetPosition = BackLeg_targetAngles[i],
         maxForce = 50
     )
 
