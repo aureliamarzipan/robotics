@@ -20,16 +20,40 @@ robotId = p.loadURDF("body.urdf")
 
 pyrosim.Prepare_To_Simulate(robotId)
 
-backLegSensorValues = numpy.zeros(200)
-frontLegSensorValues = numpy.zeros(200)
+backLegSensorValues = numpy.zeros(1000)
+frontLegSensorValues = numpy.zeros(1000)
 
-for i in range(200):
+amplitude = numpy.pi/4
+frequency = 10
+phaseOffset = 0
+
+targetAngles = numpy.linspace(0, 2*numpy.pi, 1000)
+targetAngles = amplitude * numpy.sin(frequency * targetAngles + phaseOffset)
+numpy.save("data/targetAngles.npy", targetAngles)
+
+for i in range(1000):
     p.stepSimulation()
 
     backLegTouch = pyrosim.Get_Touch_Sensor_Value_For_Link("BackLeg")
     frontLegTouch = pyrosim.Get_Touch_Sensor_Value_For_Link("FrontLeg")
     backLegSensorValues[i] = backLegTouch
     frontLegSensorValues[i] = frontLegTouch
+
+    pyrosim.Set_Motor_For_Joint(
+        bodyIndex = robotId,
+        jointName = b"Torso_BackLeg",
+        controlMode = p.POSITION_CONTROL,
+        targetPosition = targetAngles[i],
+        maxForce = 50
+    )
+
+    pyrosim.Set_Motor_For_Joint(
+        bodyIndex = robotId,
+        jointName = b"Torso_FrontLeg",
+        controlMode = p.POSITION_CONTROL,
+        targetPosition = targetAngles[i],
+        maxForce = 50
+    )
 
     time.sleep(.01)
 
