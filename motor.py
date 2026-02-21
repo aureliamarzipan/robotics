@@ -11,7 +11,10 @@ class MOTOR:
         self.offset = c.PHASE_OFFSET
 
         self.motor_values = numpy.linspace(0, 2 * numpy.pi, c.SIM_STEPS)
-        self.motor_values = self.amplitude * numpy.sin(self.frequency * self.motor_values + self.offset)
+        if self.jointName == b'Torso_BackLeg':
+            self.motor_values = self.amplitude * numpy.sin((self.frequency / 2) * self.motor_values + self.offset)
+        else:
+            self.motor_values = self.amplitude * numpy.sin(self.frequency * self.motor_values + self.offset)
 
     def Set_Value(self, i, robot_id):
         pyrosim.Set_Motor_For_Joint(
