@@ -26,6 +26,7 @@ class SIMULATION:
         for i in range(c.SIM_STEPS):
             p.stepSimulation()
             self.robot.Sense(i)
+            self.robot.Think()
             self.robot.Prepare_To_Act()
             self.robot.Act(i)
 
