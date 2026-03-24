@@ -7,8 +7,11 @@ import generate as g
 import time
 
 class SIMULATION:
-    def __init__(self):
-        self.physicsClient = p.connect(p.GUI)
+    def __init__(self, context):
+        if context == "DIRECT":
+            self.physicsClient = p.connect(p.DIRECT)
+        else:
+            self.physicsClient = p.connect(p.GUI)
         p.setAdditionalSearchPath(pybullet_data.getDataPath()) # gets predefined objects e.g. plane.urdf
         p.configureDebugVisualizer(p.COV_ENABLE_GUI,0) # hides sidebars
         p.setGravity(c.GRAV_X, c.GRAV_Y, c.GRAV_Z)
@@ -31,3 +34,6 @@ class SIMULATION:
             self.robot.Act(i)
 
             time.sleep(c.SIM_TIME_SLEEP)
+
+    def Get_Fitness(self):
+        self.robot.Get_Fitness()
