@@ -8,6 +8,7 @@ import time
 
 class SIMULATION:
     def __init__(self, context):
+        self.context = context
         if context == "DIRECT":
             self.physicsClient = p.connect(p.DIRECT)
         else:
@@ -33,7 +34,8 @@ class SIMULATION:
             self.robot.Prepare_To_Act()
             self.robot.Act(i)
 
-            time.sleep(c.SIM_TIME_SLEEP)
+            if self.context == "GUI":
+                time.sleep(c.SIM_TIME_SLEEP)
 
     def Get_Fitness(self):
         self.robot.Get_Fitness()
