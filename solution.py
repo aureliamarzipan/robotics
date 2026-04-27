@@ -9,13 +9,6 @@ class SOLUTION:
         self.myId = id
         self.weights = np.random.rand(3, 2)
         self.weights = self.weights * 2 - 1
-        self.Create_Brain()
-        self.Create_Body()
-        self.Create_World()
-
-    def Evaluate(self, directOrGUI):
-        pass
-
 
     def Start_Simulation(self, directOrGUI):
         os.system("python3 simulate.py " + directOrGUI + " " + str(self.myId) + " &")
