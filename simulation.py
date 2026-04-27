@@ -3,12 +3,12 @@ from robot import ROBOT
 import pybullet as p
 import pybullet_data
 import constants as c
-import generate as g
 import time
 
 class SIMULATION:
-    def __init__(self, context):
+    def __init__(self, context, solutionID):
         self.context = context
+        self.solutionID = solutionID
         if context == "DIRECT":
             self.physicsClient = p.connect(p.DIRECT)
         else:
@@ -17,11 +17,8 @@ class SIMULATION:
         p.configureDebugVisualizer(p.COV_ENABLE_GUI,0) # hides sidebars
         p.setGravity(c.GRAV_X, c.GRAV_Y, c.GRAV_Z)
 
-        g.Create_World()
-        g.Create_Robot()
-
         self.world = WORLD()
-        self.robot = ROBOT()
+        self.robot = ROBOT(solutionID)
 
     def __del__(self):
         p.disconnect()
@@ -37,5 +34,5 @@ class SIMULATION:
             if self.context == "GUI":
                 time.sleep(c.SIM_TIME_SLEEP)
 
-    def Get_Fitness(self):
-        self.robot.Get_Fitness()
+    def Get_Fitness(self, solutionID):
+        self.robot.Get_Fitness(solutionID)

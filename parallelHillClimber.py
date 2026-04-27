@@ -13,10 +13,13 @@ class PARALLEL_HILL_CLIMBER:
 
     def Evolve(self):
         for parent in self.parents.values():
-            parent.Evaluate("GUI")
+            parent.Start_Simulation("GUI")
+
+        for parent in self.parents.values():
+            parent.Wait_For_Simulation_To_End()
 
         # for currentGeneration in range(NUMBER_OF_GENERATIONS):
-        #     self.Evolve_For_One_Generation()
+        #      self.Evolve_For_One_Generation()
 
     def Evolve_For_One_Generation(self):
         self.Spawn()
@@ -26,7 +29,7 @@ class PARALLEL_HILL_CLIMBER:
         self.Select()
 
     def Spawn(self):
-        self.child = copy.deepcopy(self.parent)
+        self.child = copy.deepcopy(self.parent) # todo this should be deep copying the best parent
         self.child.SetId(self.nextAvailableID)
         self.nextAvailableID += 1
 
