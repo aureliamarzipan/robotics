@@ -3,11 +3,12 @@ import pyrosim.pyrosim as p
 import os
 import random
 import time
+import constants as c
 
 class SOLUTION:
     def __init__(self, id):
         self.myId = id
-        self.weights = np.random.rand(3, 2)
+        self.weights = np.random.rand(c.NUM_SENSOR_NEURONS, c.NUM_MOTOR_NEURONS)
         self.weights = self.weights * 2 - 1
 
     def Start_Simulation(self, directOrGUI):
@@ -32,9 +33,9 @@ class SOLUTION:
         p.Send_Motor_Neuron(name=3, jointName="Torso_BackLeg")
         p.Send_Motor_Neuron(name=4, jointName="Torso_FrontLeg")
 
-        for currentRow in range(3):
-            for currentCol in range(1):
-                p.Send_Synapse(sourceNeuronName=currentRow, targetNeuronName=currentCol + 3, weight=self.weights[currentRow, currentCol])
+        for currentRow in range(c.NUM_SENSOR_NEURONS):
+            for currentCol in range(c.NUM_MOTOR_NEURONS):
+                p.Send_Synapse(sourceNeuronName=currentRow, targetNeuronName=currentCol + c.NUM_SENSOR_NEURONS, weight=self.weights[currentRow, currentCol])
 
         p.End()
 
@@ -55,8 +56,8 @@ class SOLUTION:
         p.End()
 
     def Mutate(self):
-        row = random.randint(0,2)
-        col = random.randint(0, 1)
+        row = random.randint(0, c.NUM_SENSOR_NEURONS - 1)
+        col = random.randint(0, c.NUM_MOTOR_NEURONS - 1)
         self.weights[row][col] = random.random() * 2 - 1
 
     def Set_Id(self, id):
