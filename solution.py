@@ -26,24 +26,16 @@ class SOLUTION:
 
     def Create_Brain(self):
         p.Start_NeuralNetwork("brain" + str(self.myId) + ".nndf")
-        p.Send_Sensor_Neuron(name=0, linkName="Torso")
-        p.Send_Sensor_Neuron(name=1, linkName="FrontLeg")
-        p.Send_Sensor_Neuron(name=2, linkName="BackLeg")
-        p.Send_Sensor_Neuron(name=3, linkName="LeftLeg")
-        p.Send_Sensor_Neuron(name=4, linkName="RightLeg")
-        p.Send_Sensor_Neuron(name=5, linkName="FrontLowerLeg")
-        p.Send_Sensor_Neuron(name=6, linkName="BackLowerLeg")
-        p.Send_Sensor_Neuron(name=7, linkName="LeftLowerLeg")
-        p.Send_Sensor_Neuron(name=8, linkName="RightLowerLeg")
+        p.Send_Sensor_Neuron(name=0, linkName="Part0")
+        p.Send_Sensor_Neuron(name=1, linkName="Part1")
+        p.Send_Sensor_Neuron(name=2, linkName="Part2")
+        p.Send_Sensor_Neuron(name=3, linkName="Part3")
+        p.Send_Sensor_Neuron(name=4, linkName="Part4")
 
-        p.Send_Motor_Neuron(name=9, jointName="Torso_FrontLeg")
-        p.Send_Motor_Neuron(name=10, jointName="Torso_BackLeg")
-        p.Send_Motor_Neuron(name=11, jointName="Torso_LeftLeg")
-        p.Send_Motor_Neuron(name=12, jointName="Torso_RightLeg")
-        p.Send_Motor_Neuron(name=13, jointName="FrontLeg_FrontLowerLeg")
-        p.Send_Motor_Neuron(name=14, jointName="BackLeg_BackLowerLeg")
-        p.Send_Motor_Neuron(name=15, jointName="LeftLeg_LeftLowerLeg")
-        p.Send_Motor_Neuron(name=16, jointName="RightLeg_RightLowerLeg")
+        p.Send_Motor_Neuron(name=5, jointName="Part0_Part1")
+        p.Send_Motor_Neuron(name=6, jointName="Part1_Part2")
+        p.Send_Motor_Neuron(name=7, jointName="Part2_Part3")
+        p.Send_Motor_Neuron(name=8, jointName="Part3_Part4")
 
         for currentRow in range(c.NUM_SENSOR_NEURONS):
             for currentCol in range(c.NUM_MOTOR_NEURONS):
@@ -58,40 +50,23 @@ class SOLUTION:
 
     def Create_Body(self):
         p.Start_URDF("body.urdf")
-        p.Send_Cube(name="Torso", pos=[0, 0, 1], size=[1, 1, 1])
+        p.Send_Cube(name="Part0", pos=[0, 0, 1], size=[0.5, 0.2, 0.2])
 
-        p.Send_Joint(name="Torso_FrontLeg", parent="Torso", child="FrontLeg", type="revolute",
-                    position=[0, 0.5, 1], jointAxis = "1 0 0")
-        p.Send_Cube(name="FrontLeg", pos=[0, 0.5, 0], size=[0.2, 1, 0.2])
+        p.Send_Joint(name="Part0_Part1", parent="Part0", child="Part1", type="revolute",
+                    position=[0.25, 0, 1], jointAxis = "0 1 0")
+        p.Send_Cube(name="Part1", pos=[0.25, 0, 0], size=[0.5, 0.2, 0.2])
 
-        p.Send_Joint(name="FrontLeg_FrontLowerLeg", parent="FrontLeg", child="FrontLowerLeg", type="revolute",
-                     position=[0, 1, 0], jointAxis="1 0 0")
-        p.Send_Cube(name="FrontLowerLeg", pos=[0, 0, -0.5], size=[0.2, 0.2, 1])
+        p.Send_Joint(name="Part1_Part2", parent="Part1", child="Part2", type="revolute",
+                     position=[0.5, 0, 0], jointAxis="0 1 0")
+        p.Send_Cube(name="Part2", pos=[0.25, 0, 0], size=[0.5, 0.2, 0.2])
 
+        p.Send_Joint(name="Part2_Part3", parent="Part2", child="Part3", type="revolute",
+                     position=[0.5, 0, 0], jointAxis="0 1 0")
+        p.Send_Cube(name="Part3", pos=[0.25, 0, 0], size=[0.5, 0.2, 0.2])
 
-        p.Send_Joint(name="Torso_BackLeg", parent="Torso", child="BackLeg", type="revolute",
-                    position=[0, -0.5, 1], jointAxis = "1 0 0")
-        p.Send_Cube(name="BackLeg", pos=[0, -0.5, 0], size=[0.2, 1, 0.2])
-
-        p.Send_Joint(name="BackLeg_BackLowerLeg", parent="BackLeg", child="BackLowerLeg", type="revolute",
-                     position=[0, -1, 0], jointAxis="1 0 0")
-        p.Send_Cube(name="BackLowerLeg", pos=[0, 0, -0.5], size=[0.2, 0.2, 1])
-
-        p.Send_Joint(name="Torso_LeftLeg", parent="Torso", child="LeftLeg", type="revolute",
-                     position=[-0.5, 0, 1], jointAxis="0 1 0")
-        p.Send_Cube(name="LeftLeg", pos=[-0.5, 0, 0], size=[1, 0.2, 0.2])
-
-        p.Send_Joint(name="LeftLeg_LeftLowerLeg", parent="LeftLeg", child="LeftLowerLeg", type="revolute",
-                      position=[-1, 0, 0], jointAxis="0 1 0")
-        p.Send_Cube(name="LeftLowerLeg", pos=[0, 0, -0.5], size=[0.2, 0.2, 1])
-
-        p.Send_Joint(name="Torso_RightLeg", parent="Torso", child="RightLeg", type="revolute",
-                     position=[0.5, 0, 1], jointAxis="0 1 0")
-        p.Send_Cube(name="RightLeg", pos=[0.5, 0, 0], size=[1, 0.2, 0.2])
-
-        p.Send_Joint(name="RightLeg_RightLowerLeg", parent="RightLeg", child="RightLowerLeg", type="revolute",
-                     position=[1, 0, 0], jointAxis="0 1 0")
-        p.Send_Cube(name="RightLowerLeg", pos=[0, 0, -0.5], size=[0.2, 0.2, 1])
+        p.Send_Joint(name="Part3_Part4", parent="Part3", child="Part4", type="revolute",
+                     position=[0.5, 0, 0], jointAxis="0 1 0")
+        p.Send_Cube(name="Part4", pos=[0.25, 0, 0], size=[0.5, 0.2, 0.2])
 
         p.End()
 
