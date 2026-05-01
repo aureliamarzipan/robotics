@@ -9,6 +9,7 @@ class SIMULATION:
     def __init__(self, context, solutionID):
         self.context = context
         self.solutionID = solutionID
+        self.totalStepsLinksOnGround = 0
         if context == "DIRECT":
             self.physicsClient = p.connect(p.DIRECT)
         else:
@@ -27,6 +28,7 @@ class SIMULATION:
         for i in range(c.SIM_STEPS):
             p.stepSimulation()
             self.robot.Sense(i)
+            self.totalStepsLinksOnGround += self.robot.stepLinksOnGround
             self.robot.Think()
             self.robot.Prepare_To_Act()
             self.robot.Act(i)
@@ -35,4 +37,7 @@ class SIMULATION:
                 time.sleep(c.SIM_TIME_SLEEP)
 
     def Get_Fitness(self, solutionID):
+        with open("links" + str(solutionID) + ".txt", "w") as f:
+            f.write(str(self.totalStepsLinksOnGround))
+        f.close()
         self.robot.Get_Fitness(solutionID)

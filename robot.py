@@ -15,6 +15,7 @@ class ROBOT:
 
         self.robotId = p.loadURDF("body.urdf")
         self.nn = NEURAL_NETWORK("brain" + solutionID + ".nndf")
+        self.stepLinksOnGround = 0
 
         os.system("rm brain" + str(solutionID) + ".nndf")
 
@@ -31,8 +32,10 @@ class ROBOT:
             self.motors[jointName] = MOTOR(jointName)
 
     def Sense(self, i):
+        self.stepLinksOnGround = 0
         for sensor in self.sensors.values():
             sensor.GetValue(i)
+            self.stepLinksOnGround += sensor.values[i]
 
     def Act(self, i):
         for neuronName in self.nn.Get_Neuron_Names():
