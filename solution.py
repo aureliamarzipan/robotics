@@ -50,10 +50,10 @@ class SOLUTION:
 
     def Create_Body(self):
         p.Start_URDF("body.urdf")
-        p.Send_Cube(name="Part0", pos=[0, 0, 1], size=[0.5, 0.2, 0.2])
+        p.Send_Cube(name="Part0", pos=[0, 0, 0.1], size=[0.5, 0.2, 0.2])
 
         p.Send_Joint(name="Part0_Part1", parent="Part0", child="Part1", type="revolute",
-                    position=[0.25, 0, 1], jointAxis = "0 1 0")
+                    position=[0.25, 0, 0.1], jointAxis = "0 1 0")
         p.Send_Cube(name="Part1", pos=[0.25, 0, 0], size=[0.5, 0.2, 0.2])
 
         p.Send_Joint(name="Part1_Part2", parent="Part1", child="Part2", type="revolute",

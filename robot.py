@@ -53,6 +53,11 @@ class ROBOT:
         stateOfLinkZero = p.getLinkState(self.robotId,0)
         positionOfLinkZero = stateOfLinkZero[0]
         xCoordinateOfLinkZero = positionOfLinkZero[0]
+
+        # if more links are off the ground than on the ground nullify the result
+        if self.stepLinksOnGround > 0:
+            xCoordinateOfLinkZero *= 0.25
+
         with open("tmp" + str(solutionId) + ".txt", "w") as f:
             f.write(str(xCoordinateOfLinkZero))
         f.close()

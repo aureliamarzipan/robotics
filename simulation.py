@@ -37,7 +37,7 @@ class SIMULATION:
                 time.sleep(c.SIM_TIME_SLEEP)
 
     def Get_Fitness(self, solutionID):
-        with open("links" + str(solutionID) + ".txt", "w") as f:
-            f.write(str(self.totalStepsLinksOnGround))
-        f.close()
+        # with open("links" + str(solutionID) + ".txt", "w") as f:
+        #     f.write(str(self.totalStepsLinksOnGround))
+        # f.close()
         self.robot.Get_Fitness(solutionID)
